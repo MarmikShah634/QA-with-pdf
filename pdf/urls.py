@@ -20,5 +20,7 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.index, name='index')
+    path('', views.index, name='index'),
+    path('qapdf', views.question_form, name='question_form'),
+    path('ask/', views.question_form, name='ask_question'),
 ]

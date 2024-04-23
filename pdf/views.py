@@ -15,3 +15,11 @@ def index(request):
     else:
         form = FileForm()
     return render(request, 'index.html', {'form': form})
+
+def question_form(request):
+    if request.method == 'POST':
+        # Handle form submission
+        question = request.POST.get('question')
+        # Process the question here
+        # Redirect or render a response
+    return render(request, 'question_form.html')
