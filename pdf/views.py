@@ -63,7 +63,7 @@ def question_form(request):
             question = question.lower()
             text_from_pdf = request.session.get('text_from_pdf')
             answer = qa_pipeline({'context': text_from_pdf, 'question': question})
-            return HttpResponse("done")
+            return HttpResponse(answer['answer'])
     else:
         form = FileForm()
     return render(request, 'qapdf.html', {'form': form})
