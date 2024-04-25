@@ -16,19 +16,33 @@
 <body>
     <div class="container">
         <h2>Ask Questions</h2>
-        <form id="question-form" method="post">
+        <form id="question-form" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <label for="question">Question:</label>
-            <input type="text" id="question" name="question">
-            <button type="submit">Ask</button>
+                    <label for="question">Question 1:</label>
+                    <input type="text" class="question-input form-control" name="question">
+            <!-- <button type="button" id="add-question-btn" class="btn btn-primary">Add Question</button> -->
+            <button type="submit" class="btn btn-success">Submit</button>
         </form>
-        <button id="return-btn">Return</button>
+        <!-- <button id="return-btn">Return</button> -->
 
-        <script>
+        <!-- <script>
             document.getElementById('return-btn').addEventListener('click', function () {
                 document.getElementById('question-form').submit();
             });
-        </script>
+
+            document.getElementById('add-question-btn').addEventListener('click', function () {
+                var questionFields = document.getElementById('question-fields');
+                var lastQuestionInput = document.querySelector('.question-input:last-of-type');
+                var newQuestionInput = lastQuestionInput.cloneNode(true);
+                var questionNumber = questionFields.children.length + 1;
+                newQuestionInput.setAttribute('name', 'question[]');
+                newQuestionInput.setAttribute('id', 'question' + questionNumber);
+                newQuestionInput.value = '';
+                newQuestionInput.placeholder = 'Question ' + questionNumber;
+                newQuestionInput.querySelector('label').textContent = 'Question ' + questionNumber + ':';
+                questionFields.appendChild(newQuestionInput);
+            });
+        </script> -->
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
