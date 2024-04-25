@@ -1,6 +1,6 @@
 import os
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 import PyPDF2
 from transformers import pipeline
 import re
@@ -34,14 +34,23 @@ def index(request):
     if request.method == 'POST':
         form = FileForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-        uploaded_file = request.FILES['file']
-        file_name = uploaded_file.name
-        pdf_path = "media/uploads/" + file_name
-        text_from_pdf = extract_text_from_pdf(pdf_path)
-        text_from_pdf = preprocess_text(text_from_pdf)
-        request.session['text_from_pdf'] = text_from_pdf
-        return render(request, 'qapdf.html')
+            # Save the form data, including the file
+            instance = form.save()
+            
+            # Access the saved file from the instance
+            uploaded_file = instance.file
+            file_name = uploaded_file.name
+            pdf_path = "media/" + file_name
+            
+            # Perform further processing with the file
+            text_from_pdf = extract_text_from_pdf(pdf_path)
+            text_from_pdf = preprocess_text(text_from_pdf)
+            
+            # Store the processed text in the session
+            request.session['text_from_pdf'] = text_from_pdf
+            
+            # Redirect to the desired page (e.g., qapdf.html)
+            return redirect('question_form')
     else:
         form = FileForm()
     return render(request, 'index.html', {'form': form})
