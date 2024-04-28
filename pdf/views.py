@@ -73,13 +73,9 @@ def question_form(request):
             text_from_pdf = request.session.get('text_from_pdf')
             if text_from_pdf:
                 answer = qa_pipeline({'context': text_from_pdf, 'question': question})
-                # Clear the session data after processing
-                request.session.pop('text_from_pdf', None)
                 return render(request, 'answer.html', {'answer': answer['answer']})
             else:
-                # Handle the case where text from PDF is not available
-                # For example, redirect back to the index page with an error message
-                return redirect('qapdf')  # Adjust as needed
+                return render(request, 'qapdf.html')
     else:
         form = FileForm()
     return render(request, 'qapdf.html', {'form': form})
