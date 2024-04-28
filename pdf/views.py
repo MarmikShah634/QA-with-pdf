@@ -18,14 +18,18 @@ def index(request):
             return 'Unknown'
 
     def extract_text_from_pdf(pdf_path):
-        text = ""
-        with open(pdf_path, "rb") as file:
-            pdf_reader = PyPDF2.PdfReader(file)
-            num_pages = len(pdf_reader.pages)
-            for page_num in range(num_pages):
-                page = pdf_reader.pages[page_num]
-                text += page.extract_text()
-        return text
+        try:
+            with open(pdf_path, "rb") as file:
+                pdf_reader = PyPDF2.PdfReader(file)
+                num_pages = len(pdf_reader.pages)
+                text = ""
+                for page_num in range(num_pages):
+                    page = pdf_reader.pages[page_num]
+                    text += page.extract_text()
+                return text
+        except Exception as e:
+            # Handle the exception (e.g., log the error)
+            return None
 
     def preprocess_text(text):
         text = re.sub(r'\s+', ' ', text)
@@ -44,10 +48,15 @@ def index(request):
             
             # Perform further processing with the file
             text_from_pdf = extract_text_from_pdf(pdf_path)
-            text_from_pdf = preprocess_text(text_from_pdf)
-            
-            # Store the processed text in the session
-            request.session['text_from_pdf'] = text_from_pdf
+            if text_from_pdf:
+                text_from_pdf = preprocess_text(text_from_pdf)
+                
+                # Store the processed text in the session
+                request.session['text_from_pdf'] = text_from_pdf
+            else:
+                # Handle the case where text extraction fails
+                # For example, show an error message to the user
+                pass        
             
             # Redirect to the desired page (e.g., qapdf.html)
             return redirect('question_form')
@@ -62,8 +71,15 @@ def question_form(request):
             question = form.cleaned_data['question']
             question = question.lower()
             text_from_pdf = request.session.get('text_from_pdf')
-            answer = qa_pipeline({'context': text_from_pdf, 'question': question})
-            return HttpResponse(answer['answer'])
+            if text_from_pdf:
+                answer = qa_pipeline({'context': text_from_pdf, 'question': question})
+                # Clear the session data after processing
+                request.session.pop('text_from_pdf', None)
+                return render(request, 'answer.html', {'answer': answer['answer']})
+            else:
+                # Handle the case where text from PDF is not available
+                # For example, redirect back to the index page with an error message
+                return redirect('qapdf')  # Adjust as needed
     else:
         form = FileForm()
     return render(request, 'qapdf.html', {'form': form})
