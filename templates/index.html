@@ -22,20 +22,8 @@
 <script>
     alert("Welcome to Q/A With PDF");
 
-    document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('uploadBtn').addEventListener('click', function() {
-        // Show loading animation
         document.getElementById('loadingOverlay').style.display = 'block';
-        
-        // Simulate PDF upload (replace setTimeout with actual upload code)
-        setTimeout(function() {
-            // Redirect to the next page after upload
-            window.location.href = '/templates/qapdf.html';
-        }, 3000); // Simulating 3 seconds upload time, replace with actual upload time
     });
-});
-
-
 </script>
-
 </html>

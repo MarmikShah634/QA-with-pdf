@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
     integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     
-    <link rel="stylesheet" href="qapdf.css">
+    <link rel="stylesheet" href="/static/css/qapdf.css">
 
     <title>Question-Answer with pdf</title>
 </head>
@@ -22,29 +22,8 @@
             {% csrf_token %}
                     <label for="question">Question 1:</label>
                     <input type="text" class="question-input form-control" name="question">
-            <!-- <button type="button" id="add-question-btn" class="btn btn-primary">Add Question</button> -->
             <button type="submit" class="btn btn-success" style="margin-top:20px">Submit</button>
         </form>
-        <!-- <button id="return-btn">Return</button> -->
-
-        <!-- <script>
-            document.getElementById('return-btn').addEventListener('click', function () {
-                document.getElementById('question-form').submit();
-            });
-
-            document.getElementById('add-question-btn').addEventListener('click', function () {
-                var questionFields = document.getElementById('question-fields');
-                var lastQuestionInput = document.querySelector('.question-input:last-of-type');
-                var newQuestionInput = lastQuestionInput.cloneNode(true);
-                var questionNumber = questionFields.children.length + 1;
-                newQuestionInput.setAttribute('name', 'question[]');
-                newQuestionInput.setAttribute('id', 'question' + questionNumber);
-                newQuestionInput.value = '';
-                newQuestionInput.placeholder = 'Question ' + questionNumber;
-                newQuestionInput.querySelector('label').textContent = 'Question ' + questionNumber + ':';
-                questionFields.appendChild(newQuestionInput);
-            });
-        </script> -->
     </div>
 
     <!-- Optional JavaScript; choose one of the two! -->
@@ -66,17 +45,8 @@
 </body>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('submitBtn').addEventListener('click', function() {
-        // Show loading animation
         document.getElementById('loadingOverlay').style.display = 'block';
-        
-        // Simulate PDF upload (replace setTimeout with actual upload code)
-        setTimeout(function() {
-            // Redirect to the next page after upload
-            window.location.href = '/templates/answer.html';
-        }, 3000); // Simulating 3 seconds upload time, replace with actual upload time
     });
-});
 </script>
 </html>
